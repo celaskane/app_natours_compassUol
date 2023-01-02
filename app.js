@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 
+app.use(express.json()); //express.json (middleware)
+
 // Iniciando um servidor
 
 /* app.get('/', (req, res) => {    //definindo rota (método http request)
@@ -28,6 +30,28 @@ app.get('/api/v1/tours', (req, res) => {
             tours
         }
     });
+});
+
+// POST (se necessário, reiniciar o nodemon)
+app.post('/api/v1/tours', (req, res) => {
+    //middleware
+    //console.log(req.body);
+    const newId = tours[tours.length - 1].id + 1;
+    const newTour = Object.assign({ id: newId }, req.body);
+    tours.push(newTour);
+
+    fs.writeFile(
+        `${__dirname}/dev-data/data/tours-simple.json`, 
+        JSON.stringify(tours), 
+        err => {
+            res.status(201).json({      //201 significa criado
+                status: 'success',
+                data: {
+                    tour: newTour
+                }
+            });
+        }
+    );
 });
 
 const porta = 8000;         //inicializando servidor
