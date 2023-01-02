@@ -92,6 +92,21 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     });
 });
 
+// DELETE
+app.delete('/api/v1/tours/:id', (req, res) => {
+    if (req.params.id * 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'ID Inválido'
+        });
+    }
+
+    res.status(204).json({      //204 significa no content
+        status: 'success',
+        data: null
+    });
+});
+
 //inicializando servidor
 const porta = 8000;
 app.listen(porta, () => {
