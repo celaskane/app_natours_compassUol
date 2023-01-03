@@ -4,7 +4,7 @@ const morgan = require('morgan');
 
 const app = express();
 app.use(express.json()); //express.json (middleware)
-app.use(morgan('dev'));  //middleware
+app.use(morgan('dev'));  //middleware 3rd party
 
 // Construindo um middleware próprio
 app.use((req, res, next) => {
@@ -17,7 +17,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//Iniciando API (route handler)
+//Iniciando API (route handler) TOURS
 // realizar a leitura dos dados primeiro
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
@@ -95,7 +95,7 @@ const updateTour = (req, res) => {
 }
 
 // DELETE
-const deleteTour =(req, res) => {
+const deleteTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
@@ -107,6 +107,43 @@ const deleteTour =(req, res) => {
         status: 'success',
         data: null
     });
+}
+
+// USERS
+//GET
+const getAllUsers = (req, res) => {
+    res.status(500).json({      //500 significa internal server error
+        status: 'error',
+        message: 'Esse route ainda não foi definido'
+    })
+}
+
+const getUser = (req, res) => {
+    res.status(500).json({      //500 significa internal server error
+        status: 'error',
+        message: 'Esse route ainda não foi definido'
+    })
+}
+
+const createUser = (req, res) => {
+    res.status(500).json({      //500 significa internal server error
+        status: 'error',
+        message: 'Esse route ainda não foi definido'
+    })
+}
+
+const updateUser = (req, res) => {
+    res.status(500).json({      //500 significa internal server error
+        status: 'error',
+        message: 'Esse route ainda não foi definido'
+    })
+}
+
+const deleteUser = (req, res) => {
+    res.status(500).json({      //500 significa internal server error
+        status: 'error',
+        message: 'Esse route ainda não foi definido'
+    })
 }
 
 /* app.get('/api/v1/tours', getAllTours);
@@ -122,8 +159,20 @@ app
 
 app
     .route('/api/v1/tours/:id')
-    .get(getTour).patch(updateTour)
+    .get(getTour)
+    .patch(updateTour)
     .delete(deleteTour);
+
+app
+    .route('/api/v1/users')
+    .get(getAllUsers)
+    .post(createUser);
+
+app
+    .route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser);
 
 //inicializando servidor
 const porta = 8000;
