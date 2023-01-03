@@ -1,8 +1,19 @@
 const express = require('express');
 const fs = require('fs');
-const app = express();
 
+const app = express();
 app.use(express.json()); //express.json (middleware)
+
+// Construindo um middleware próprio
+app.use((req, res, next) => {
+    console.log('Hola señores ((del medioware');
+    next();
+});
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+});
 
 //Iniciando API (route handler)
 // realizar a leitura dos dados primeiro
@@ -10,8 +21,10 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 
 // GET
 const getAllTours = (req, res) => {
+    console.log(req.requestTime);
     res.status(200).json({
         status: 'success',
+        requestedAt: req.requestTime,
         results: tours.length,
         data: {
             tours
