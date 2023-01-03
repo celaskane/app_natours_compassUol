@@ -3,13 +3,25 @@ const fs = require('fs');
 //Iniciando route handler (realizar a leitura dos dados primeiro)
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
-//middleware function (valida ID)
+//middleware functions 
+//valida ID
 exports.checkID = (req, res, next, val) => {
     console.log(`ID da tour: ${val}`);
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
             message: 'ID Inválido'
+        });
+    }
+    next();
+}
+
+//valida nome ou preço
+exports.checkBody = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Falta nome ou preco'
         });
     }
     next();

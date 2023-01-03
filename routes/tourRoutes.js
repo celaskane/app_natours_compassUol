@@ -7,7 +7,7 @@ router.param('id', tourController.checkID);
 router
     .route('/')         //tourRouter já está dentro de /api/v1/tours
     .get(tourController.getAllTours)
-    .post(tourController.createTour);
+    .post(tourController.checkBody, tourController.createTour);
 
 router
     .route('/:id')
