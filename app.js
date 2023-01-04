@@ -9,20 +9,20 @@ const app = express();
 //condicionando o uso do middleware morgan apenas para ambiente de desenvolvimento
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));  //middleware 3rd party
+  app.use(morgan('dev')); //middleware 3rd party
 }
 app.use(express.json()); //express.json (middleware)
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/public`));
 
 // Construindo um middleware próprio
 app.use((req, res, next) => {
-    console.log('Hola señores ((del medioware');
-    next();
+  console.log('Hola señores ((del medioware');
+  next();
 });
 
 app.use((req, res, next) => {
-    req.requestTime = new Date().toISOString();
-    next();
+  req.requestTime = new Date().toISOString();
+  next();
 });
 
 /* app.get('/api/v1/tours', getAllTours);
