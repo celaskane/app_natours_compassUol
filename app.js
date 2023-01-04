@@ -5,8 +5,13 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
+
+//condicionando o uso do middleware morgan apenas para ambiente de desenvolvimento
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));  //middleware 3rd party
+}
 app.use(express.json()); //express.json (middleware)
-app.use(morgan('dev'));  //middleware 3rd party
 app.use(express.static(`${__dirname}/public`))
 
 // Construindo um middleware próprio
