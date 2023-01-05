@@ -20,6 +20,7 @@ mongoose
     console.log('Conexão com Banco de Dados OK');
   });
 
+// Construindo esquema e modelo
 const tourSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -36,6 +37,20 @@ const tourSchema = new mongoose.Schema({
   },
 });
 const Tour = mongoose.model('Tour', tourSchema);
+
+const testTour = new Tour({
+  name: 'The Park Camper',
+  price: 997,
+});
+
+testTour
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => {
+    console.log('ERROR', err);
+  });
 
 //NODE_ENV=development nodemon server.js
 /* console.log(app.get('env')); */ //consultar ambiente
