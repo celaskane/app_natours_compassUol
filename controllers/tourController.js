@@ -5,19 +5,6 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 ); */
 
-//middleware functions
-
-//valida nome ou preço
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Falta nome ou preco',
-    });
-  }
-  next();
-};
-
 // GET
 exports.getAllTours = (req, res) => {
   console.log(req.requestTime);
@@ -46,15 +33,23 @@ exports.getTour = (req, res) => {
   }); */
 };
 
-// POST (se necessário, reiniciar o nodemon)
-exports.createTour = (req, res) => {
-  res.status(201).json({
-    //201 significa criado
-    status: 'success',
-    /* data: {
-      tour: newTour,
-    }, */
-  });
+// POST
+exports.createTour = async (req, res) => {
+  try {
+    const newTour = await Tour.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid data sent',
+    });
+  }
 };
 
 // PATCH (update de propriedades específicas)
