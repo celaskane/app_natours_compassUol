@@ -20,38 +20,6 @@ mongoose
     console.log('Conexão com Banco de Dados OK');
   });
 
-// Construindo esquema e modelo
-const tourSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A tour precisa de um nome'],
-    unique: true,
-  },
-  rating: {
-    type: Number,
-    default: 4.5,
-  },
-  price: {
-    type: Number,
-    required: [true, 'A tour precisa de um preco'],
-  },
-});
-const Tour = mongoose.model('Tour', tourSchema);
-
-const testTour = new Tour({
-  name: 'The Park Camper',
-  price: 997,
-});
-
-testTour
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((err) => {
-    console.log('ERROR', err);
-  });
-
 //NODE_ENV=development nodemon server.js
 /* console.log(app.get('env')); */ //consultar ambiente
 /* console.log(process.env); */ //consultar variáveis de ambiente
