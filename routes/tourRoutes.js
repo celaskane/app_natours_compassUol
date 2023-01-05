@@ -8,7 +8,7 @@ const router = express.Router();
 router
   .route('/') //tourRouter já está dentro de /api/v1/tours
   .get(tourController.getAllTours)
-  .post(tourController.checkBody, tourController.createTour);
+  .post(tourController.createTour);
 
 router
   .route('/:id')
