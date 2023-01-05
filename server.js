@@ -1,8 +1,24 @@
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const app = require('./app');
 
 dotenv.config({ path: './config.env' });
 
-const app = require('./app');
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
+
+// MongoClient constructor
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log('Conexão com Banco de Dados OK');
+  });
 
 //NODE_ENV=development nodemon server.js
 /* console.log(app.get('env')); */ //consultar ambiente
