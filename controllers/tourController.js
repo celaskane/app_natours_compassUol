@@ -8,6 +8,7 @@ const tours = JSON.parse(
 // GET
 exports.getAllTours = async (req, res) => {
   try {
+    // Filtrando resultados
     let queryStr = JSON.stringify(req.query);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
