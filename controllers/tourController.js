@@ -8,7 +8,10 @@ const tours = JSON.parse(
 // GET
 exports.getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    let queryStr = JSON.stringify(req.query);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    const tours = await Tour.find(JSON.parse(queryStr));
 
     res.status(200).json({
       status: 'success',
