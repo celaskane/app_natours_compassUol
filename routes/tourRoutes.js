@@ -5,6 +5,11 @@ const router = express.Router();
 
 //router.param('id', tourController.checkID);
 
+// requisição endpoint específico
+router
+  .route('/top-5-tours')
+  .get(tourController.aliasTopTours, tourController.getAllTours);
+
 router
   .route('/') //tourRouter já está dentro de /api/v1/tours
   .get(tourController.getAllTours)
