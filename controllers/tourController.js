@@ -5,6 +5,14 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 ); */
 
+// roteiro para requisição específica
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+  next();
+};
+
 // GET
 exports.getAllTours = async (req, res) => {
   try {
@@ -21,7 +29,7 @@ exports.getAllTours = async (req, res) => {
       const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
     } else {
-      query = query.sort('-_id');
+      query = query.sort('-createdAt');
     }
 
     if (req.query.fields) {
