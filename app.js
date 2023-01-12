@@ -14,25 +14,21 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json()); //express.json (middleware)
 app.use(express.static(`${__dirname}/public`));
 
-// Construindo um middleware próprio
-app.use((req, res, next) => {
-  console.log('Hola señores ((del medioware');
-  next();
-});
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
-/* app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getTour);
-app.post('/api/v1/tours', createTour);
-app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour); */
-
 //separando routers (mounting routers)
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+
+// Rotas não existentes (precisa estar depois dos routers)
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server`,
+  });
+});
 
 module.exports = app;
