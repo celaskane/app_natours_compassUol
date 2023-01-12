@@ -30,7 +30,13 @@ app.listen(porta, () => {
   console.log(`App funcionando na porta ${porta}`);
 });
 
+// Tratamento de erros
 process.on('unhandledRejection', (err) => {
   console.log(err.name, err.message);
   process.exit();
+});
+
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  process.exit(1);
 });
