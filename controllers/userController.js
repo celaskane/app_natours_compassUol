@@ -1,11 +1,18 @@
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+
 //GET
-exports.getAllUsers = (req, res) => {
-  res.status(500).json({
-    //500 significa internal server error
-    status: 'error',
-    message: 'Esse route ainda não foi definido',
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    status: 'success',
+    results: users.length,
+    data: {
+      users,
+    },
   });
-};
+});
 
 exports.getUser = (req, res) => {
   res.status(500).json({
