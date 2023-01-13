@@ -51,3 +51,23 @@ exports.login = catchAsync(async (req, res, next) => {
     token,
   });
 });
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Pegando token e verificando se existe
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+  console.log(token);
+
+  if (!token) {
+    return next(new AppError('You are not logged in', 401));
+  }
+  // 2) Verificação validade
+  // 3) Verificando se o user ainda existe
+  // 4) Autocheck se user mudou senha após jwt
+  next();
+});
