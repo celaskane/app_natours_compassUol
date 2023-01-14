@@ -17,6 +17,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role,
   });
 
   const token = signToken(newUser._id);
@@ -72,8 +73,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   // 3) Verificando se o user ainda existe
-  const freshUser = await User.findById(decoded.id);
-  if (!freshUser) {
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
     return next(
       new AppError(
         'The user belonging to this token does no longer exists',
@@ -83,13 +84,23 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // 4) Autocheck se user mudou senha após jwt
-  if (freshUser.changedPasswordAfter(decoded.iat)) {
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError('User recently changed password. Please login again', 401)
     );
   }
 
   // Acesso route protegido
-  req.user = freshUser;
+  req.user = currentUser;
   next();
 });
+
+// Autorization
+exports.restrictTo = (req, res, next) => {
+  if (req.user.role !== 'admin' || req.user.role !== 'lead-guide') {
+    return next(
+      new AppError('You do not have permission to perform this action', 403)
+    );
+  }
+  next();
+};
