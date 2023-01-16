@@ -19,9 +19,7 @@ mongoose
   .then(() => console.log('Conexão com o banco de dados OK'));
 
 // Lendo o arquivo json
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
-);
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
 // Importando dados do json no banco de dados
 const importData = async () => {
