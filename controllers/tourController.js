@@ -2,6 +2,7 @@ const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 /* //Iniciando route handler (realizar a leitura dos dados primeiro)
 const tours = JSON.parse(
@@ -82,19 +83,7 @@ exports.updateTour = catchAsync(async (req, res, next) => {
 });
 
 // DELETE
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
-
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  }
-
-  res.status(204).json({
-    //204 significa no content
-    status: 'success',
-    data: null,
-  });
-});
+exports.deleteTour = factory.deleteOne(Tour);
 
 // Aggregation Pipeline
 exports.getTourStats = catchAsync(async (req, res, next) => {
