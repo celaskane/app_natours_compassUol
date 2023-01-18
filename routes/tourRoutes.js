@@ -25,10 +25,13 @@ router
     tourController.getMonthlyPlan
   );
 
-// Geoespacial
+// Geospatial Query
 router
   .route('/tours-within/:distance/center/:latlng/unit/:unit')
   .get(tourController.getToursWithin);
+
+// Geospatial Aggregation
+router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
 
 router
   .route('/') //tourRouter já está dentro de /api/v1/tours
