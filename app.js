@@ -67,7 +67,10 @@ app.use((req, res, next) => {
 
 //separando routers (mounting routers)
 app.get('/', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Alejandro',
+  });
 });
 
 app.use('/api/v1/tours', tourRouter);
