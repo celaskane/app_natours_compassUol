@@ -7,7 +7,7 @@ const AppError = require('../utils/appError');
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
 
-  const session = await stripe.checkout.sessions  .create({
+  const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     seccess_url: `${req.protocol}://${req.get('host')}/`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
@@ -21,12 +21,12 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         amount: tour.price * 100,
         currency: 'usd',
         quantity: 1,
-      }
-    ]
+      },
+    ],
   });
 
   res.status(200).json({
     status: 'success',
     session,
-  })
+  });
 });
